@@ -1,9 +1,9 @@
 /* For collapsing sections of documents */
 
-$(document).ready(function() {
-  $('.collapsible').click(function() {
-    $(this).toggleClass('expanded');
-    $(this).next().slideToggle('fast');
+jQuery(document).ready(function() {
+  jQuery('.collapsible').click(function() {
+    jQuery(this).toggleClass('expanded');
+    jQuery(this).next().slideToggle('fast');
   })
 });
 
