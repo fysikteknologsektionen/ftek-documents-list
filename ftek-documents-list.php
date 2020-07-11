@@ -48,7 +48,11 @@ add_shortcode('ftek_documents', 'ftek_documents_shortcode');
  */
 
 function ftek_documents_listing($path, $sorting_options = array()) {
-   
+    $default_sorting_options =  array('section_order'  => SORT_ASC, 
+                                      'section_type'   => SORT_REGULAR,
+                                      'doc_order'    => SORT_ASC,
+                                      'doc_type'     => SORT_REGULAR);
+    $sorting_options = array_merge($default_sorting_options, $sorting_options);
     
     // js and css for collapsing document sections
     wp_enqueue_script( 'ftek_documents_collapse', 
@@ -72,13 +76,7 @@ function ftek_documents_listing($path, $sorting_options = array()) {
 
 //Recursive function to hande subdirectories
 function generate_collapsible($path, $depth, $sorting_options = array()) { //Will always have a dir input on $path
-
-    $default_sorting_options =  array('section_order'  => SORT_ASC, 
-                                      'section_type'   => SORT_REGULAR,
-                                      'doc_order'    => SORT_ASC,
-                                      'doc_type'     => SORT_REGULAR);
-    $sorting_options = array_merge($default_sorting_options, $sorting_options);
-
+    
     if($depth > 50) { // Prevent too deep recusion
         return ''; 
     }
