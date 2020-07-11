@@ -4,7 +4,7 @@
 * Plugin Name: Ftek Documents
 * Description: Shortcode for listing documents such as meeting records.
 * Author: Pontus Granström
-* Version: 2.0.1
+* Version: 2.1
 * Text Domain: ftekdoc
 * Domain Path: /languages
 * GitHub Plugin URI: Fysikteknologsektionen/ftek-documents-list
@@ -76,7 +76,7 @@ function ftek_documents_listing($path, $sorting_options = array()) {
 
 //Recursive function to hande subdirectories
 function generate_collapsible($path, $depth, $sorting_options = array()) { //Will always have a dir input on $path
-    
+
     if($depth > 50) { // Prevent too deep recusion
         return ''; 
     }
