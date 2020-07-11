@@ -4,7 +4,7 @@
 * Plugin Name: Ftek Documents
 * Description: Shortcode for listing documents such as meeting records.
 * Author: Pontus Granström
-* Version: 2.0
+* Version: 2.0.1
 * Text Domain: ftekdoc
 * Domain Path: /languages
 * GitHub Plugin URI: Fysikteknologsektionen/ftek-documents-list
@@ -48,11 +48,7 @@ add_shortcode('ftek_documents', 'ftek_documents_shortcode');
  */
 
 function ftek_documents_listing($path, $sorting_options = array()) {
-   $default_sorting_options =  array('section_order'  => SORT_ASC, 
-                                      'section_type'   => SORT_REGULAR,
-                                      'doc_order'    => SORT_ASC,
-                                      'doc_type'     => SORT_REGULAR);
-    $sorting_options = array_merge($default_sorting_options, $sorting_options);
+   
     
     // js and css for collapsing document sections
     wp_enqueue_script( 'ftek_documents_collapse', 
@@ -69,13 +65,20 @@ function ftek_documents_listing($path, $sorting_options = array()) {
     // In case of encoding issues, look here: http://se1.php.net/manual/en/function.iconv.php
     $result = '<div class="ftek-documents">';
 
-    $result .= generate_collapsible($basepath,0);
+    $result .= generate_collapsible($basepath,0,$sorting_options);
     
     return $result . '</div>';
 }
 
 //Recursive function to hande subdirectories
-function generate_collapsible($path, $depth) { //Will always have a dir input on $path
+function generate_collapsible($path, $depth, $sorting_options = array()) { //Will always have a dir input on $path
+
+    $default_sorting_options =  array('section_order'  => SORT_ASC, 
+                                      'section_type'   => SORT_REGULAR,
+                                      'doc_order'    => SORT_ASC,
+                                      'doc_type'     => SORT_REGULAR);
+    $sorting_options = array_merge($default_sorting_options, $sorting_options);
+
     if($depth > 50) { // Prevent too deep recusion
         return ''; 
     }
@@ -88,6 +91,8 @@ function generate_collapsible($path, $depth) { //Will always have a dir input on
         return '';
     }
 
+    array_multisort($dirContents, $sorting_options['section_order'], $sorting_options['section_type']);
+
     foreach ($dirContents as $dirItem) {
 
         if (is_dir("$path/$dirItem")) { //Check if content of a dir is another dir
@@ -97,7 +102,7 @@ function generate_collapsible($path, $depth) { //Will always have a dir input on
                     . "<ul style='display: none;'>";
             
             $subDirPath = "$path/$dirItem";
-            $result .= generate_collapsible($subDirPath, ($depth + 1)) . "</ul>"; //Hold my recusion I'm going in!
+            $result .= generate_collapsible($subDirPath, ($depth + 1), $sorting_options) . "</ul>"; //Hold my recusion I'm going in!
 
         }else {
             $docname = pathinfo($dirItem)['filename'];
