@@ -67,11 +67,11 @@ function ftek_documents_listing($path, $sorting_options = array()) {
     $basepath = trailingslashit($upload_dir['basedir']) . $path;
     $baseurl  = trailingslashit($upload_dir['baseurl']) . $path;
     // In case of encoding issues, look here: http://se1.php.net/manual/en/function.iconv.php
-        $result = '<div class="ftek-documents">';
+    $result = '<div class="ftek-documents">';
 
-        $result .= generate_collapsible($basepath,0);
+    $result .= generate_collapsible($basepath,0);
     
-        return $result . '</div>';
+    return $result . '</div>';
 }
 
 //Recursive function to hande subdirectories
