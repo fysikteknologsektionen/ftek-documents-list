@@ -4,6 +4,7 @@
 Plugin Name: Ftek Documents
 Description: Shortcode for listing documents such as meeting records.
 Author: Pontus Granström
+Version: 2.0
 Text Domain: ftekdoc
 Domain Path: /languages
 GitHub Plugin URI: Fysikteknologsektionen/ftek-documents-list
@@ -66,33 +67,47 @@ function ftek_documents_listing($path, $sorting_options = array()) {
     $basepath = trailingslashit($upload_dir['basedir']) . $path;
     $baseurl  = trailingslashit($upload_dir['baseurl']) . $path;
     // In case of encoding issues, look here: http://se1.php.net/manual/en/function.iconv.php
-    $sections = directory_contents($basepath);
-    if ( empty($sections) ) {
+        $result = '<div class="ftek-documents">';
+
+        $result .= generate_collapsible($basepath,0);
+    
+        return $result . '</div>';
+}
+
+//Recursive function to hande subdirectories
+function generate_collapsible($path, $depth) { //Will always have a dir input on $path
+    if($depth > 50) { // Prevent too deep recusion
+        return ''; 
+    }
+
+    $result = "";
+
+    $dirContents  = directory_contents($path);
+
+    if ( empty($dirContents) ) { //If a directory is empty return.
         return '';
     }
-    array_multisort($sections, $sorting_options['section_order'], $sorting_options['section_type']);
-    
-    $result = '<div class="ftek-documents">';
-    
-    foreach ($sections as $section) {
-        $docs = directory_contents("$basepath/$section");
-        if ( empty($docs) ) {
-            continue;
-        }
-        array_multisort($docs, $sorting_options['doc_order'], $sorting_options['doc_type']);
-        
-        $result .= "<h3 class='collapsible'>" 
-                    . $section
-                 . "</h3>"
+
+    foreach ($dirContents as $dirItem) {
+
+        if (is_dir("$path/$dirItem")) { //Check if content of a dir is another dir
+            $result .= "<h3 class='collapsible'>" 
+                    . $dirItem
+                    . "</h3>"
                     . "<ul style='display: none;'>";
-        foreach ($docs as $doc) {
-            $docname = pathinfo($doc)['filename'];
-            $docurl = "$baseurl/$section/$doc";
+            
+            $subDirPath = "$path/$dirItem";
+            $result .= generate_collapsible($subDirPath, ($depth + 1)) . "</ul>"; //Hold my recusion I'm going in!
+
+        }else {
+            $docname = pathinfo($dirItem)['filename'];
+            $docurl = "$path/$dirItem";
+
             $result .= "<li><a href='$docurl' target='_blank'>$docname</a></li>";
         }
-        $result .= "</ul>";
+
     }
-    return $result . '</div>';
+    return $result;
 }
 
 // Removes crufty "directories" and returns an empty array on error or if folder is empty.
