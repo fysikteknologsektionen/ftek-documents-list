@@ -3,9 +3,9 @@
 }
 
 .collapsible.expanded:after {
-    content: " ▾";
+    content: " \25BE";
 }
 
 .collapsible:after {
-    content: " ▸";
+    content: " \25B8";
 }
