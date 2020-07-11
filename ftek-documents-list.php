@@ -1,13 +1,13 @@
 <?php
 
-/*
-Plugin Name: Ftek Documents
-Description: Shortcode for listing documents such as meeting records.
-Author: Pontus Granström
-Version: 2.0
-Text Domain: ftekdoc
-Domain Path: /languages
-GitHub Plugin URI: Fysikteknologsektionen/ftek-documents-list
+/** 
+* Plugin Name: Ftek Documents
+* Description: Shortcode for listing documents such as meeting records.
+* Author: Pontus Granström
+* Version: 2.0
+* Text Domain: ftekdoc
+* Domain Path: /languages
+* GitHub Plugin URI: Fysikteknologsektionen/ftek-documents-list
 */
 
 function ftek_documents_shortcode($atts, $content, $tag)
