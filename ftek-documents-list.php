@@ -4,7 +4,7 @@
 * Plugin Name: Ftek Documents
 * Description: Shortcode for listing documents such as meeting records.
 * Author: Pontus Granström
-* Version: 2.1
+* Version: 2.2
 * Text Domain: ftekdoc
 * Domain Path: /languages
 * GitHub Plugin URI: Fysikteknologsektionen/ftek-documents-list
@@ -69,13 +69,13 @@ function ftek_documents_listing($path, $sorting_options = array()) {
     // In case of encoding issues, look here: http://se1.php.net/manual/en/function.iconv.php
     $result = '<div class="ftek-documents">';
 
-    $result .= generate_collapsible($basepath,0,$sorting_options);
+    $result .= generate_collapsible($basepath,$baseURLPath,0,$sorting_options);
     
     return $result . '</div>';
 }
 
 //Recursive function to hande subdirectories
-function generate_collapsible($path, $depth, $sorting_options = array()) { //Will always have a dir input on $path
+function generate_collapsible($path, $urlPath, $depth, $sorting_options = array()) { //Will always have a dir input on $path
 
     if($depth > 50) { // Prevent too deep recusion
         return ''; 
@@ -100,11 +100,12 @@ function generate_collapsible($path, $depth, $sorting_options = array()) { //Wil
                     . "<ul style='display: none;'>";
             
             $subDirPath = "$path/$dirItem";
-            $result .= generate_collapsible($subDirPath, ($depth + 1), $sorting_options) . "</ul>"; //Hold my recusion I'm going in!
+            $subDirURLPath = "$urlPath/$dirItem";
+            $result .= generate_collapsible($subDirPath, $subDirURLPath, ($depth + 1), $sorting_options) . "</ul>"; //Hold my recusion I'm going in!
 
         }else {
             $docname = pathinfo($dirItem)['filename'];
-            $docurl = "$path/$dirItem";
+            $docurl =  "$urlPath/$dirItem";
 
             $result .= "<li><a href='$docurl' target='_blank'>$docname</a></li>";
         }
