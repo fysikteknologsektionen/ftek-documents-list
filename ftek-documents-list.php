@@ -4,7 +4,7 @@
 * Plugin Name: Ftek Documents
 * Description: Shortcode for listing documents such as meeting records.
 * Author: Pontus Granström
-* Version: 2.2
+* Version: 2.3
 * Text Domain: ftekdoc
 * Domain Path: /languages
 * GitHub Plugin URI: Fysikteknologsektionen/ftek-documents-list
@@ -69,7 +69,7 @@ function ftek_documents_listing($path, $sorting_options = array()) {
     // In case of encoding issues, look here: http://se1.php.net/manual/en/function.iconv.php
     $result = '<div class="ftek-documents">';
 
-    $result .= generate_collapsible($basepath,$baseURLPath,0,$sorting_options);
+    $result .= generate_collapsible($basepath,$baseurl,0,$sorting_options);
     
     return $result . '</div>';
 }
