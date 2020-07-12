@@ -69,7 +69,7 @@ function ftek_documents_listing($path, $sorting_options = array()) {
     // In case of encoding issues, look here: http://se1.php.net/manual/en/function.iconv.php
     $result = '<div class="ftek-documents">';
 
-    $result .= generate_collapsible($basepath,$baseURLPath,0,$sorting_options);
+    $result .= generate_collapsible($basepath,$baseurl,0,$sorting_options);
     
     return $result . '</div>';
 }
