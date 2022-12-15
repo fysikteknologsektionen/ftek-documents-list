@@ -4,10 +4,11 @@
 * Plugin Name: Ftek Documents
 * Description: Shortcode for listing documents such as meeting records.
 * Author: Pontus Granström
-* Version: 2.4
+* Version: 2.4.1
 * Text Domain: ftekdoc
 * Domain Path: /languages
-* GitHub Plugin URI: Fysikteknologsektionen/ftek-documents-list
+* GitHub Plugin URI: fysikteknologsektionen/ftek-documents-list
+* Primary Branch: main
 */
 
 function ftek_documents_shortcode($atts, $content, $tag)
